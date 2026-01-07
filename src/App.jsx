@@ -30,11 +30,27 @@ export default function App() {
     }));
   }
 
-  // ✅ Version 04: Delete (Backlog only, like your GitHub)
   function Delete(id) {
     setColumns((prev) => ({
       ...prev,
       1: prev[1].filter((item) => item.id !== id),
+    }));
+  }
+
+  // ✅ Version 05: Modify (Backlog only, like your GitHub)
+  function Modify(id, title, subtitle, priority) {
+    setColumns((prev) => ({
+      ...prev,
+      1: prev[1].map((item) =>
+        item.id === id
+          ? {
+            ...item,
+            title: title,
+            subtitle: subtitle,
+            meta: { ...item.meta, priority: priority },
+          }
+          : item
+      ),
     }));
   }
 
@@ -49,7 +65,7 @@ export default function App() {
                 Product Roadmap
               </h1>
               <p className="text-[11px] text-stone-500">
-                Version 04: Add + Delete (Backlog)
+                Version 05: Add + Delete + Modify (Backlog)
               </p>
             </div>
 
@@ -81,12 +97,14 @@ export default function App() {
                     title={item.title}
                     subtitle={item.subtitle}
                     row={1}
+                    lastrow={false}
                     meta={{
                       priority: item.meta.priority,
                       owner: item.meta.owner,
                       due: item.meta.due,
                     }}
                     DeleteTask={Delete}
+                    ModifyTask={Modify}
                   />
                 ))}
               </KanbanColumn>
@@ -105,6 +123,7 @@ export default function App() {
                     title={item.title}
                     subtitle={item.subtitle}
                     row={2}
+                    lastrow={false}
                     meta={{
                       priority: item.meta.priority,
                       owner: item.meta.owner,
@@ -128,6 +147,7 @@ export default function App() {
                     title={item.title}
                     subtitle={item.subtitle}
                     row={3}
+                    lastrow={true}
                     meta={{
                       priority: item.meta.priority,
                       owner: item.meta.owner,

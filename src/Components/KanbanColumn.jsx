@@ -1,18 +1,11 @@
 import { useState } from "react";
-import AddTaskForm from "./AddTaskForm.jsx";
+import AddTaskForm from "./AddTaskForm";
 
-export default function KanbanColumn({
-    title,
-    row,
-    count,
-    children,
-    AddItem,
-    canAdd = true,
-}) {
+function KanbanColumn({ title, row, count, children, AddItem, canAdd = true }) {
     const [isAdding, setIsAdding] = useState(false);
 
-    function handleAddSubmit(taskTitle, taskSubtitle, taskPriority) {
-        AddItem(taskTitle, taskSubtitle, taskPriority);
+    function handleAddSubmit(title, subtitle, priority) {
+        AddItem(title, subtitle, priority);
         setIsAdding(false);
     }
 
@@ -32,11 +25,10 @@ export default function KanbanColumn({
                     <button
                         onClick={() => setIsAdding((prev) => !prev)}
                         className="
-              rounded-full border border-stone-200 bg-white px-2.5 py-1
-              text-[11px] font-medium text-stone-600 shadow-sm
+              rounded-full border border-stone-200 bg-white px-2.5 py-1 
+              text-[11px] font-medium text-stone-600 shadow-sm 
               hover:bg-stone-50 transition
             "
-                        type="button"
                     >
                         {isAdding ? "Close" : "+ Add"}
                     </button>
@@ -45,8 +37,8 @@ export default function KanbanColumn({
 
             <div
                 className={`
-          overflow-hidden transition-all duration-200 ease-out
-          ${isAdding
+        overflow-hidden transition-all duration-200 ease-out
+        ${isAdding
                         ? "opacity-100 translate-y-0 max-h-[300px] mb-2"
                         : "opacity-0 translate-y-0 max-h-0 mb-0 pointer-events-none"
                     }
@@ -61,3 +53,5 @@ export default function KanbanColumn({
         </section>
     );
 }
+
+export default KanbanColumn;

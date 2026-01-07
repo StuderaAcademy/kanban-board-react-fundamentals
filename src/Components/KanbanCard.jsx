@@ -1,13 +1,24 @@
-import DropDownButton from "./DropDownButton.jsx";
+import DropDownButton from "./DropDownButton";
+import ModifyTaskForm from "./ModifyTaskForm";
+import { useState } from "react";
 
 export default function KanbanCard({
     id,
     title,
     subtitle,
     meta,
+    lastrow,
     row,
     DeleteTask,
+    ModifyTask,
 }) {
+    const [isModify, setIsModify] = useState(false);
+
+    function handleModifySubmit(newTitle, newSubtitle, newPriority) {
+        ModifyTask(id, newTitle, newSubtitle, newPriority);
+        setIsModify(false);
+    }
+
     const priority = meta?.priority || "Medium";
 
     let priorityClasses =
@@ -22,33 +33,43 @@ export default function KanbanCard({
 
     return (
         <article className="group rounded-xl border border-stone-200 bg-white px-3 py-3 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md">
-            <header className="mb-1.5 flex items-start justify-between gap-3">
-                <div className="flex flex-col gap-1">
-                    <h4 className="text-sm font-medium text-stone-900">{title}</h4>
-                    {subtitle && (
-                        <p className="text-xs text-stone-500 leading-relaxed">{subtitle}</p>
-                    )}
-                </div>
+            {isModify ? (
+                <ModifyTaskForm
+                    onSubmit={handleModifySubmit}
+                    onCancel={() => setIsModify(false)}
+                    LastTitle={title}
+                    LastSubtitle={subtitle}
+                    lastPriority={priority}
+                />
+            ) : (
+                <>
+                    <header className="mb-1.5 flex items-start justify-between gap-3">
+                        <div className="flex flex-col gap-1">
+                            <h4 className="text-sm font-medium text-stone-900">{title}</h4>
+                            {subtitle && (
+                                <p className="text-xs text-stone-500 leading-relaxed">{subtitle}</p>
+                            )}
+                        </div>
 
-                <div className="flex flex-col items-end gap-1">
-                    <span className={priorityClasses}>{priority}</span>
-                </div>
-            </header>
+                        <div className="flex flex-col items-end gap-1">
+                            <span className={priorityClasses}>{priority}</span>
+                        </div>
+                    </header>
 
-            <footer className="mt-2 flex items-center justify-between text-[11px] text-stone-400">
-                {/* ✅ Like your GitHub: dropdown only appears in Backlog (row 1) */}
-                {row === 1 && (
-                    <DropDownButton
-                        onDelete={() => DeleteTask?.(id)}
-                        // Modify will be added in Version 05
-                        onModify={() => { }}
-                    />
-                )}
+                    <footer className="mt-2 flex items-center justify-between text-[11px] text-stone-400">
+                        {row === 1 && (
+                            <DropDownButton
+                                onModify={() => setIsModify(true)}
+                                onDelete={() => DeleteTask(id)}
+                            />
+                        )}
 
-                <div className="flex items-center gap-2">
-                    <span>{meta?.due}</span>
-                </div>
-            </footer>
+                        <div className="flex items-center gap-2">
+                            <span>{meta?.due}</span>
+                        </div>
+                    </footer>
+                </>
+            )}
         </article>
     );
 }

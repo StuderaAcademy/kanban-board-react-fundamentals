@@ -1,15 +1,22 @@
 import { useState } from "react";
 
-export default function AddTaskForm({ onSubmit, onCancel }) {
-    const [title, setTitle] = useState("");
-    const [subtitle, setSubtitle] = useState("");
-    const [priority, setPriority] = useState(""); // "Low" | "Medium" | "High"
+export default function ModifyTaskForm({
+    onSubmit,
+    onCancel,
+    LastTitle,
+    LastSubtitle,
+    lastPriority,
+}) {
+    const [title, setTitle] = useState(LastTitle);
+    const [subtitle, setSubtitle] = useState(LastSubtitle);
+    const [priority, setPriority] = useState(lastPriority);
 
     function handleSubmit(e) {
         e.preventDefault();
         if (!title.trim()) return;
 
         onSubmit(title.trim(), subtitle.trim(), priority);
+
         setTitle("");
         setSubtitle("");
         setPriority("Medium");
@@ -26,6 +33,7 @@ export default function AddTaskForm({ onSubmit, onCancel }) {
         transition-all duration-200 ease-out
       "
         >
+            {/* Title */}
             <div className="mb-2">
                 <label className="mb-1 block text-[11px] font-medium uppercase tracking-[0.14em] text-stone-400">
                     Title
@@ -43,6 +51,7 @@ export default function AddTaskForm({ onSubmit, onCancel }) {
                 />
             </div>
 
+            {/* Description */}
             <div className="mb-3">
                 <label className="mb-1 block text-[11px] font-medium uppercase tracking-[0.14em] text-stone-400">
                     Description <span className="text-stone-300">(optional)</span>
@@ -61,6 +70,7 @@ export default function AddTaskForm({ onSubmit, onCancel }) {
                 />
             </div>
 
+            {/* Priority */}
             <div className="mb-3">
                 <label className="mb-1 block text-[11px] font-medium uppercase tracking-[0.14em] text-stone-400">
                     Priority
@@ -108,6 +118,7 @@ export default function AddTaskForm({ onSubmit, onCancel }) {
                 </div>
             </div>
 
+            {/* Actions */}
             <div className="flex items-center justify-end gap-2">
                 <button
                     type="button"
@@ -130,7 +141,7 @@ export default function AddTaskForm({ onSubmit, onCancel }) {
           "
                     disabled={!title.trim()}
                 >
-                    Add task
+                    Modify
                 </button>
             </div>
         </form>
