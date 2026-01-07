@@ -1,23 +1,34 @@
+import { useState } from "react";
 import KanbanColumn from "./Components/KanbanColumn.jsx";
 import KanbanCard from "./Components/KanbanCard.jsx";
 
 export default function App() {
-  // Version 02: simple display data (not the final/ideal structure)
-  // Just to test the rendering process.
-  const tasks = {
-    backlog: [
-      { title: "Design landing page", subtitle: "Create hero section and layout", priority: "High", due: "Mar 12" },
-      { title: "Setup project repo", subtitle: "Initialize GitHub repository", priority: "Medium", due: "Mar 14" },
-      { title: "Write documentation", subtitle: "Add README and guidelines", priority: "Low", due: "Mar 20" },
-    ],
-    inProgress: [
-      { title: "Build UI components", subtitle: "Column & card styles", priority: "High", due: "Mar 15" },
-      { title: "Responsive layout", subtitle: "Mobile + desktop tweaks", priority: "Medium", due: "Mar 18" },
-    ],
-    done: [
-      { title: "Project setup", subtitle: "Vite + Tailwind installed", priority: "Low", due: "Mar 10" },
-    ],
-  };
+  const dueDate = new Date();
+  dueDate.setDate(dueDate.getDate() + 7);
+
+  const [columns, setColumns] = useState({
+    1: [],
+    2: [],
+    3: [],
+  });
+
+  function AddItem(title, subtitle, priority) {
+    const newKanban = {
+      id: crypto.randomUUID(),
+      title,
+      subtitle: subtitle || "Newly added task",
+      meta: {
+        owner: "You",
+        due: dueDate.toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+        priority: priority || "Medium",
+      },
+    };
+
+    setColumns((prev) => ({
+      ...prev,
+      1: [...prev[1], newKanban],
+    }));
+  }
 
   return (
     <div className="min-h-screen w-full bg-stone-100 overflow-hidden">
@@ -30,7 +41,7 @@ export default function App() {
                 Product Roadmap
               </h1>
               <p className="text-[11px] text-stone-500">
-                Kanban board for managing tasks.
+                Version 03: real data structure + Add task (Backlog only)
               </p>
             </div>
 
@@ -44,44 +55,57 @@ export default function App() {
             </div>
           </div>
 
-          {/* Kanban Board — now renders from simple data */}
+          {/* Board */}
           <div className="flex-1 overflow-auto px-4 py-6">
             <div className="grid gap-4 md:grid-cols-3 md:gap-6">
               {/* Backlog */}
-              <KanbanColumn title="Backlog" count={tasks.backlog.length}>
-                {tasks.backlog.map((t, idx) => (
+              <KanbanColumn
+                title="Backlog"
+                row={1}
+                count={columns[1].length}
+                AddItem={AddItem}
+                canAdd={true}
+              >
+                {columns[1].map((item) => (
                   <KanbanCard
-                    key={`backlog-${idx}`}
-                    title={t.title}
-                    subtitle={t.subtitle}
-                    priority={t.priority}
-                    due={t.due}
+                    key={item.id}
+                    title={item.title}
+                    subtitle={item.subtitle}
+                    meta={item.meta}
                   />
                 ))}
               </KanbanColumn>
 
               {/* In Progress */}
-              <KanbanColumn title="In Progress" count={tasks.inProgress.length}>
-                {tasks.inProgress.map((t, idx) => (
+              <KanbanColumn
+                title="In Progress"
+                row={2}
+                count={columns[2].length}
+                canAdd={false}
+              >
+                {columns[2].map((item) => (
                   <KanbanCard
-                    key={`inprogress-${idx}`}
-                    title={t.title}
-                    subtitle={t.subtitle}
-                    priority={t.priority}
-                    due={t.due}
+                    key={item.id}
+                    title={item.title}
+                    subtitle={item.subtitle}
+                    meta={item.meta}
                   />
                 ))}
               </KanbanColumn>
 
               {/* Done */}
-              <KanbanColumn title="Done" count={tasks.done.length}>
-                {tasks.done.map((t, idx) => (
+              <KanbanColumn
+                title="Done"
+                row={3}
+                count={columns[3].length}
+                canAdd={false}
+              >
+                {columns[3].map((item) => (
                   <KanbanCard
-                    key={`done-${idx}`}
-                    title={t.title}
-                    subtitle={t.subtitle}
-                    priority={t.priority}
-                    due={t.due}
+                    key={item.id}
+                    title={item.title}
+                    subtitle={item.subtitle}
+                    meta={item.meta}
                   />
                 ))}
               </KanbanColumn>

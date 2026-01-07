@@ -1,6 +1,24 @@
-export default function KanbanColumn({ title, count, children }) {
+import { useState } from "react";
+import AddTaskForm from "./AddTaskForm.jsx";
+
+export default function KanbanColumn({
+    title,
+    row,
+    count,
+    children,
+    AddItem,
+    canAdd = true,
+}) {
+    const [isAdding, setIsAdding] = useState(false);
+
+    function handleAddSubmit(taskTitle, taskSubtitle, taskPriority) {
+        AddItem(taskTitle, taskSubtitle, taskPriority);
+        setIsAdding(false);
+    }
+
     return (
         <section className="flex flex-col gap-3 rounded-2xl border border-stone-200 bg-stone-50/60 p-3 shadow-sm">
+            {/* Column header */}
             <header className="flex items-center justify-between gap-2">
                 <div className="flex flex-col">
                     <span className="text-xs font-semibold uppercase tracking-[0.12em] text-stone-500">
@@ -11,19 +29,40 @@ export default function KanbanColumn({ title, count, children }) {
                     </span>
                 </div>
 
-                {/* Display-only still */}
-                <button
-                    type="button"
-                    className="
-            rounded-full border border-stone-200 bg-white px-2.5 py-1
-            text-[11px] font-medium text-stone-600 shadow-sm
-            hover:bg-stone-50 transition
-          "
-                >
-                    + Add
-                </button>
+                {canAdd && (
+                    <button
+                        type="button"
+                        onClick={() => setIsAdding((prev) => !prev)}
+                        className="
+              rounded-full border border-stone-200 bg-white px-2.5 py-1
+              text-[11px] font-medium text-stone-600 shadow-sm
+              hover:bg-stone-50 transition
+            "
+                    >
+                        {isAdding ? "Close" : "+ Add"}
+                    </button>
+                )}
             </header>
 
+            {/* Add form area */}
+            <div
+                className={`
+          overflow-hidden transition-all duration-200 ease-out
+          ${isAdding
+                        ? "opacity-100 translate-y-0 max-h-[300px] mb-2"
+                        : "opacity-0 translate-y-0 max-h-0 mb-0 pointer-events-none"
+                    }
+        `}
+            >
+                {isAdding && (
+                    <AddTaskForm
+                        onSubmit={handleAddSubmit}
+                        onCancel={() => setIsAdding(false)}
+                    />
+                )}
+            </div>
+
+            {/* Cards */}
             <div className="flex flex-col gap-3">{children}</div>
         </section>
     );
