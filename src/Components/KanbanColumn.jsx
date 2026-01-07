@@ -1,7 +1,6 @@
 export default function KanbanColumn({ title, count, children }) {
     return (
         <section className="flex flex-col gap-3 rounded-2xl border border-stone-200 bg-stone-50/60 p-3 shadow-sm">
-            {/* Column header */}
             <header className="flex items-center justify-between gap-2">
                 <div className="flex flex-col">
                     <span className="text-xs font-semibold uppercase tracking-[0.12em] text-stone-500">
@@ -12,7 +11,7 @@ export default function KanbanColumn({ title, count, children }) {
                     </span>
                 </div>
 
-                {/* Layout only: button does nothing for now */}
+                {/* Display-only still */}
                 <button
                     type="button"
                     className="
@@ -25,7 +24,6 @@ export default function KanbanColumn({ title, count, children }) {
                 </button>
             </header>
 
-            {/* Cards */}
             <div className="flex flex-col gap-3">{children}</div>
         </section>
     );
