@@ -18,7 +18,6 @@ export default function KanbanColumn({
 
     return (
         <section className="flex flex-col gap-3 rounded-2xl border border-stone-200 bg-stone-50/60 p-3 shadow-sm">
-            {/* Column header */}
             <header className="flex items-center justify-between gap-2">
                 <div className="flex flex-col">
                     <span className="text-xs font-semibold uppercase tracking-[0.12em] text-stone-500">
@@ -31,20 +30,19 @@ export default function KanbanColumn({
 
                 {canAdd && (
                     <button
-                        type="button"
                         onClick={() => setIsAdding((prev) => !prev)}
                         className="
               rounded-full border border-stone-200 bg-white px-2.5 py-1
               text-[11px] font-medium text-stone-600 shadow-sm
               hover:bg-stone-50 transition
             "
+                        type="button"
                     >
                         {isAdding ? "Close" : "+ Add"}
                     </button>
                 )}
             </header>
 
-            {/* Add form area */}
             <div
                 className={`
           overflow-hidden transition-all duration-200 ease-out
@@ -55,14 +53,10 @@ export default function KanbanColumn({
         `}
             >
                 {isAdding && (
-                    <AddTaskForm
-                        onSubmit={handleAddSubmit}
-                        onCancel={() => setIsAdding(false)}
-                    />
+                    <AddTaskForm onSubmit={handleAddSubmit} onCancel={() => setIsAdding(false)} />
                 )}
             </div>
 
-            {/* Cards */}
             <div className="flex flex-col gap-3">{children}</div>
         </section>
     );

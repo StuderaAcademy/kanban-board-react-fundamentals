@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function AddTaskForm({ onSubmit, onCancel }) {
     const [title, setTitle] = useState("");
     const [subtitle, setSubtitle] = useState("");
-    const [priority, setPriority] = useState("Medium"); // default
+    const [priority, setPriority] = useState(""); // like your GitHub
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -26,7 +26,6 @@ export default function AddTaskForm({ onSubmit, onCancel }) {
         transition-all duration-200 ease-out
       "
         >
-            {/* Title */}
             <div className="mb-2">
                 <label className="mb-1 block text-[11px] font-medium uppercase tracking-[0.14em] text-stone-400">
                     Title
@@ -37,14 +36,13 @@ export default function AddTaskForm({ onSubmit, onCancel }) {
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Write a clear task name..."
                     className="
-            w-full rounded-lg border border-stone-200 bg-stone-50/70 px-2.5 py-1.5
-            text-xs text-stone-900 placeholder:text-stone-400
+            w-full rounded-lg border border-stone-200 bg-stone-50/70 px-2.5 py-1.5 
+            text-xs text-stone-900 placeholder:text-stone-400 
             focus:border-stone-400 focus:bg-white focus:outline-none focus:ring-0
           "
                 />
             </div>
 
-            {/* Description */}
             <div className="mb-3">
                 <label className="mb-1 block text-[11px] font-medium uppercase tracking-[0.14em] text-stone-400">
                     Description <span className="text-stone-300">(optional)</span>
@@ -55,15 +53,14 @@ export default function AddTaskForm({ onSubmit, onCancel }) {
                     rows={2}
                     placeholder="Add a short note or context..."
                     className="
-            w-full rounded-lg border border-stone-200 bg-stone-50/70 px-2.5 py-1.5
-            text-xs text-stone-900 placeholder:text-stone-400
+            w-full rounded-lg border border-stone-200 bg-stone-50/70 px-2.5 py-1.5 
+            text-xs text-stone-900 placeholder:text-stone-400 
             focus:border-stone-400 focus:bg-white focus:outline-none focus:ring-0
             resize-none
           "
                 />
             </div>
 
-            {/* Priority */}
             <div className="mb-3">
                 <label className="mb-1 block text-[11px] font-medium uppercase tracking-[0.14em] text-stone-400">
                     Priority
@@ -74,10 +71,8 @@ export default function AddTaskForm({ onSubmit, onCancel }) {
                         onClick={() => setPriority("Low")}
                         className={
                             priority === "Low"
-                                ? basePriorityClass +
-                                " bg-emerald-50 border-emerald-200 text-emerald-700"
-                                : basePriorityClass +
-                                " bg-white border-stone-200 text-stone-500 hover:bg-stone-50"
+                                ? basePriorityClass + " bg-emerald-50 border-emerald-200 text-emerald-700"
+                                : basePriorityClass + " bg-white border-stone-200 text-stone-500 hover:bg-stone-50"
                         }
                     >
                         Low
@@ -87,10 +82,8 @@ export default function AddTaskForm({ onSubmit, onCancel }) {
                         onClick={() => setPriority("Medium")}
                         className={
                             priority === "Medium"
-                                ? basePriorityClass +
-                                " bg-amber-50 border-amber-200 text-amber-700"
-                                : basePriorityClass +
-                                " bg-white border-stone-200 text-stone-500 hover:bg-stone-50"
+                                ? basePriorityClass + " bg-amber-50 border-amber-200 text-amber-700"
+                                : basePriorityClass + " bg-white border-stone-200 text-stone-500 hover:bg-stone-50"
                         }
                     >
                         Medium
@@ -100,10 +93,8 @@ export default function AddTaskForm({ onSubmit, onCancel }) {
                         onClick={() => setPriority("High")}
                         className={
                             priority === "High"
-                                ? basePriorityClass +
-                                " bg-rose-50 border-rose-200 text-rose-700"
-                                : basePriorityClass +
-                                " bg-white border-stone-200 text-stone-500 hover:bg-stone-50"
+                                ? basePriorityClass + " bg-rose-50 border-rose-200 text-rose-700"
+                                : basePriorityClass + " bg-white border-stone-200 text-stone-500 hover:bg-stone-50"
                         }
                     >
                         High
@@ -111,13 +102,12 @@ export default function AddTaskForm({ onSubmit, onCancel }) {
                 </div>
             </div>
 
-            {/* Actions */}
             <div className="flex items-center justify-end gap-2">
                 <button
                     type="button"
                     onClick={onCancel}
                     className="
-            rounded-full border border-stone-200 bg-white px-3 py-1.5
+            rounded-full border border-stone-200 bg-white px-3 py-1.5 
             text-[11px] font-medium text-stone-500
             hover:bg-stone-50 transition
           "
@@ -126,13 +116,13 @@ export default function AddTaskForm({ onSubmit, onCancel }) {
                 </button>
                 <button
                     type="submit"
-                    disabled={!title.trim()}
                     className="
-            rounded-full bg-stone-900 px-3.5 py-1.5
-            text-[11px] font-medium text-stone-50
+            rounded-full bg-stone-900 px-3.5 py-1.5 
+            text-[11px] font-medium text-stone-50 
             shadow-sm hover:bg-stone-800 transition
             disabled:cursor-not-allowed disabled:bg-stone-300
           "
+                    disabled={!title.trim()}
                 >
                     Add task
                 </button>

@@ -26,7 +26,15 @@ export default function App() {
 
     setColumns((prev) => ({
       ...prev,
-      1: [...prev[1], newKanban],
+      1: [...prev[1], newKanban], // always Backlog
+    }));
+  }
+
+  // ✅ Version 04: Delete (Backlog only, like your GitHub)
+  function Delete(id) {
+    setColumns((prev) => ({
+      ...prev,
+      1: prev[1].filter((item) => item.id !== id),
     }));
   }
 
@@ -41,7 +49,7 @@ export default function App() {
                 Product Roadmap
               </h1>
               <p className="text-[11px] text-stone-500">
-                Version 03: real data structure + Add task (Backlog only)
+                Version 04: Add + Delete (Backlog)
               </p>
             </div>
 
@@ -69,9 +77,16 @@ export default function App() {
                 {columns[1].map((item) => (
                   <KanbanCard
                     key={item.id}
+                    id={item.id}
                     title={item.title}
                     subtitle={item.subtitle}
-                    meta={item.meta}
+                    row={1}
+                    meta={{
+                      priority: item.meta.priority,
+                      owner: item.meta.owner,
+                      due: item.meta.due,
+                    }}
+                    DeleteTask={Delete}
                   />
                 ))}
               </KanbanColumn>
@@ -86,9 +101,15 @@ export default function App() {
                 {columns[2].map((item) => (
                   <KanbanCard
                     key={item.id}
+                    id={item.id}
                     title={item.title}
                     subtitle={item.subtitle}
-                    meta={item.meta}
+                    row={2}
+                    meta={{
+                      priority: item.meta.priority,
+                      owner: item.meta.owner,
+                      due: item.meta.due,
+                    }}
                   />
                 ))}
               </KanbanColumn>
@@ -103,9 +124,15 @@ export default function App() {
                 {columns[3].map((item) => (
                   <KanbanCard
                     key={item.id}
+                    id={item.id}
                     title={item.title}
                     subtitle={item.subtitle}
-                    meta={item.meta}
+                    row={3}
+                    meta={{
+                      priority: item.meta.priority,
+                      owner: item.meta.owner,
+                      due: item.meta.due,
+                    }}
                   />
                 ))}
               </KanbanColumn>
