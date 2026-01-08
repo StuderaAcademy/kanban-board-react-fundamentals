@@ -7,6 +7,7 @@ export default function KanbanCard({
     title,
     subtitle,
     meta,
+    Upgrade,
     lastrow,
     row,
     DeleteTask,
@@ -66,6 +67,20 @@ export default function KanbanCard({
 
                         <div className="flex items-center gap-2">
                             <span>{meta?.due}</span>
+
+                            {!lastrow && Upgrade && (
+                                <button
+                                    onClick={() => Upgrade(id)}
+                                    className="
+                    rounded-lg border border-stone-200 bg-stone-50 
+                    px-2.5 py-1 text-[11px] font-medium text-stone-600 
+                    shadow-sm hover:bg-stone-100 hover:text-stone-900 hover:shadow 
+                    transition
+                  "
+                                >
+                                    Move →
+                                </button>
+                            )}
                         </div>
                     </footer>
                 </>

@@ -37,21 +37,53 @@ export default function App() {
     }));
   }
 
-  // ✅ Version 05: Modify (Backlog only, like your GitHub)
   function Modify(id, title, subtitle, priority) {
     setColumns((prev) => ({
       ...prev,
       1: prev[1].map((item) =>
         item.id === id
           ? {
-            ...item,
-            title: title,
-            subtitle: subtitle,
-            meta: { ...item.meta, priority: priority },
-          }
+              ...item,
+              title: title,
+              subtitle: subtitle,
+              meta: { ...item.meta, priority: priority },
+            }
           : item
       ),
     }));
+  }
+
+  // ✅ Version 06: Upgrade (move task 1 -> 2 -> 3), same as your GitHub
+  function Upgrade(id) {
+    setColumns((prevColumns) => {
+      let fromKey = null;
+      let itemToMove = null;
+
+      // Find which column has this task
+      for (const key of Object.keys(prevColumns)) {
+        const task = prevColumns[key].find((item) => item.id === id);
+        if (task) {
+          fromKey = key;
+          itemToMove = task;
+          break;
+        }
+      }
+
+      if (!itemToMove) return prevColumns;
+
+      const from = Number(fromKey);
+
+      // If already in last column, do nothing
+      if (from === 3) return prevColumns;
+
+      const to = from + 1;
+
+      return {
+        ...prevColumns,
+        [from]: prevColumns[from].filter((item) => item.id !== id), // remove from old
+        [to]: [...prevColumns[to], { ...itemToMove, row: to }], // add to new
+      };
+    });
   }
 
   return (
@@ -65,7 +97,7 @@ export default function App() {
                 Product Roadmap
               </h1>
               <p className="text-[11px] text-stone-500">
-                Version 05: Add + Delete + Modify (Backlog)
+                Version 06: Add + Delete + Modify + Move (Upgrade)
               </p>
             </div>
 
@@ -96,15 +128,16 @@ export default function App() {
                     id={item.id}
                     title={item.title}
                     subtitle={item.subtitle}
-                    row={1}
                     lastrow={false}
+                    Upgrade={Upgrade}
+                    DeleteTask={Delete}
+                    ModifyTask={Modify}
+                    row={1}
                     meta={{
                       priority: item.meta.priority,
                       owner: item.meta.owner,
                       due: item.meta.due,
                     }}
-                    DeleteTask={Delete}
-                    ModifyTask={Modify}
                   />
                 ))}
               </KanbanColumn>
@@ -122,8 +155,9 @@ export default function App() {
                     id={item.id}
                     title={item.title}
                     subtitle={item.subtitle}
-                    row={2}
                     lastrow={false}
+                    Upgrade={Upgrade}
+                    row={2}
                     meta={{
                       priority: item.meta.priority,
                       owner: item.meta.owner,
@@ -146,8 +180,8 @@ export default function App() {
                     id={item.id}
                     title={item.title}
                     subtitle={item.subtitle}
-                    row={3}
                     lastrow={true}
+                    row={3}
                     meta={{
                       priority: item.meta.priority,
                       owner: item.meta.owner,
